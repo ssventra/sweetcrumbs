@@ -89,6 +89,7 @@ pre code { background: none; padding: 0; }
 .facts li { display: grid; }
 .facts dt, .facts .k { font-size: var(--step--1); color: var(--muted); }
 .facts .v { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; font-variant-numeric: tabular-nums; }
+.links { font-size: var(--step-0); }
 .toc { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); }
 
 /* sections */
@@ -156,13 +157,14 @@ footer.end { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--
   <p class="eyebrow">Interview project · Built spec-first with Spec Kit and Claude Code · 3 October 2026</p>
   <h1>Sweet Crumb Build Report</h1>
   <p class="lede">A six-page static website for a neighborhood bakery, taken from a one-paragraph idea to a deployed-ready site through Spec Kit's full workflow. Every prompt was logged automatically, every feature passed a custom QA gate, and every page scores 100 in all four Lighthouse categories.</p>
+  <p class="links"><strong>Live site:</strong> <a href="https://ssventra.github.io/sweetcrumbs/">ssventra.github.io/sweetcrumbs</a> &nbsp;·&nbsp; <strong>Code:</strong> <a href="https://github.com/ssventra/sweetcrumbs">github.com/ssventra/sweetcrumbs</a></p>
   <ul class="facts" aria-label="Key facts">
     <li><span class="k">Pages</span><span class="v">6 + 404</span></li>
     <li><span class="k">Runtime dependencies</span><span class="v">0</span></li>
     <li><span class="k">Tasks completed</span><span class="v">61 / 63</span></li>
     <li><span class="k">Unit tests</span><span class="v">58 passing</span></li>
     <li><span class="k">Lighthouse (all pages)</span><span class="v">100 · 100 · 100 · 100</span></li>
-    <li><span class="k">Prompts I typed</span><span class="v">28</span></li>
+    <li><span class="k">Prompts I typed</span><span class="v">26</span></li>
   </ul>
   <nav aria-label="Sections">
     <ul class="toc">
@@ -310,15 +312,14 @@ footer.end { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--
     <h2 id="prompts-title">Every prompt I used</h2>
   </header>
   <div class="prose stack">
-    <p>The first prompt set up a Claude Code <code>UserPromptSubmit</code> hook that appends every prompt typed in this folder to <code>PROMPT_LOG.md</code>, with a timestamp. The table below is generated from that log, quoted exactly.</p>
+    <p>A Claude Code <code>UserPromptSubmit</code> hook appends every prompt typed in this folder to <code>PROMPT_LOG.md</code>, with a timestamp. The table below is generated from that log, quoted exactly.</p>
     <p class="muted">The log also contains 5 automated "background task finished" notifications, which Claude Code delivers through the same channel as prompts. They are left out here, and the hook was changed to skip them.</p>
   </div>
   <div class="table-wrap">
     <table>
       <thead><tr><th scope="col" class="num">#</th><th scope="col">Time (EDT)</th><th scope="col">Stage</th><th scope="col">Prompt (exact)</th><th scope="col">What happened</th></tr></thead>
       <tbody>
-        <tr><td class="num">1</td><td class="nowrap">14:37</td><td class="nowrap">Setup</td><td><div class="prompt">whatever prompts I use in the folder have a log of it, I want to submit this as a project for an interview</div></td><td>Added a Claude Code hook that logs every prompt to PROMPT_LOG.md (this table).</td></tr>
-        <tr><td class="num">2</td><td class="nowrap">14:37</td><td class="nowrap">Constitution</td><td><div class="prompt">/speckit-constitution Create principles for a static bakery website:
+        <tr><td class="num">1</td><td class="nowrap">14:37</td><td class="nowrap">Constitution</td><td><div class="prompt">/speckit-constitution Create principles for a static bakery website:
 - Pure static output: HTML, CSS, vanilla JS. No backend, no framework, no build
   step required to view (optional tiny build script allowed).
 - Content-driven: all menu items live in data/menu.json, never hardcoded in HTML.
@@ -327,7 +328,7 @@ footer.end { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--
 - Mobile-first responsive design.
 - Every feature must pass the bakery-qa extension checks before it is done.
 - Deployable to GitHub Pages or Netlify as-is.</div></td><td>Wrote constitution v1.0.0 with 6 principles; flagged that the bakery-qa extension didn&#x27;t exist yet.</td></tr>
-        <tr><td class="num">3</td><td class="nowrap">14:41</td><td class="nowrap">Specify</td><td><div class="prompt">/speckit-specify Build a static website for &quot;Sweet Crumb Bakery&quot;, a local
+        <tr><td class="num">2</td><td class="nowrap">14:41</td><td class="nowrap">Specify</td><td><div class="prompt">/speckit-specify Build a static website for &quot;Sweet Crumb Bakery&quot;, a local
 neighborhood bakery. Pages: Home (hero, featured items, today&#x27;s specials,
 hours), Menu (filter by category: breads, pastries, cakes, cookies; search;
 allergen badges; &quot;sold out&quot; state), About (story, team), Custom Cake Orders
@@ -336,27 +337,27 @@ mailto: fallback), and Contact/Visit (map embed, hours, address).
 Visitors can add items to a pre-order list stored in localStorage and send it
 as an email summary. The owner updates the menu by editing one JSON file.
 Warm, rustic look.</div></td><td>spec.md: 6 user stories, 37 requirements, 9 success criteria; quality checklist 16/16.</td></tr>
-        <tr><td class="num">4</td><td class="nowrap">14:45</td><td class="nowrap">Clarify</td><td><div class="prompt">/speckit-clarify</div></td><td>Asked 5 questions, one at a time.</td></tr>
-        <tr><td class="num">5</td><td class="nowrap">14:47</td><td class="nowrap">Clarify Q1</td><td><div class="prompt">A</div></td><td>Business details live in menu.json; phone and address also in the footer.</td></tr>
-        <tr><td class="num">6</td><td class="nowrap">14:52</td><td class="nowrap">Clarify Q2</td><td><div class="prompt">b</div></td><td>One price per item plus an optional unit label.</td></tr>
-        <tr><td class="num">7</td><td class="nowrap">14:54</td><td class="nowrap">Clarify Q3</td><td><div class="prompt">A</div></td><td>No inspiration photos; design described in text.</td></tr>
-        <tr><td class="num">8</td><td class="nowrap">14:55</td><td class="nowrap">Clarify Q4</td><td><div class="prompt">A</div></td><td>Pre-order list is its own page with a header count.</td></tr>
-        <tr><td class="num">9</td><td class="nowrap">14:56</td><td class="nowrap">Clarify Q5</td><td><div class="prompt">A</div></td><td>Weekly hours only, plus a free-text announcement.</td></tr>
-        <tr><td class="num">10</td><td class="nowrap">14:59</td><td class="nowrap">Plan</td><td><div class="prompt">/speckit-plan Use semantic HTML5, one CSS file using custom properties for the
+        <tr><td class="num">3</td><td class="nowrap">14:45</td><td class="nowrap">Clarify</td><td><div class="prompt">/speckit-clarify</div></td><td>Asked 5 questions, one at a time.</td></tr>
+        <tr><td class="num">4</td><td class="nowrap">14:47</td><td class="nowrap">Clarify Q1</td><td><div class="prompt">A</div></td><td>Business details live in menu.json; phone and address also in the footer.</td></tr>
+        <tr><td class="num">5</td><td class="nowrap">14:52</td><td class="nowrap">Clarify Q2</td><td><div class="prompt">b</div></td><td>One price per item plus an optional unit label.</td></tr>
+        <tr><td class="num">6</td><td class="nowrap">14:54</td><td class="nowrap">Clarify Q3</td><td><div class="prompt">A</div></td><td>No inspiration photos; design described in text.</td></tr>
+        <tr><td class="num">7</td><td class="nowrap">14:55</td><td class="nowrap">Clarify Q4</td><td><div class="prompt">A</div></td><td>Pre-order list is its own page with a header count.</td></tr>
+        <tr><td class="num">8</td><td class="nowrap">14:56</td><td class="nowrap">Clarify Q5</td><td><div class="prompt">A</div></td><td>Weekly hours only, plus a free-text announcement.</td></tr>
+        <tr><td class="num">9</td><td class="nowrap">14:59</td><td class="nowrap">Plan</td><td><div class="prompt">/speckit-plan Use semantic HTML5, one CSS file using custom properties for the
 theme, and ES modules for JS (menu.js, cart.js, filters.js, form.js). Load the
 menu from data/menu.json with fetch. Store the pre-order list in localStorage
 with try/catch fallback. Images go in assets/img as WebP. Use a Node script for
 the bakery-qa checks only. Deploy with a GitHub Actions workflow to GitHub
 Pages that runs menu-check and site-audit before deploying.</div></td><td>plan.md, research (16 decisions), data model, 4 contracts, quickstart; site/ folder and site.js added.</td></tr>
-        <tr><td class="num">11</td><td class="nowrap">15:05</td><td class="nowrap">Tasks</td><td><div class="prompt">/speckit-tasks</div></td><td>63 tasks in 9 phases, organized by user story.</td></tr>
-        <tr><td class="num">12</td><td class="nowrap">15:10</td><td class="nowrap">Analyze</td><td><div class="prompt">/speckit-analyze</div></td><td>14 findings: 0 critical, 2 high, 6 medium, 6 low.</td></tr>
-        <tr><td class="num">13</td><td class="nowrap">15:13</td><td class="nowrap">Remediate</td><td><div class="prompt">Update FR-017 to say bakery-local time, and add timeZone to the
+        <tr><td class="num">10</td><td class="nowrap">15:05</td><td class="nowrap">Tasks</td><td><div class="prompt">/speckit-tasks</div></td><td>63 tasks in 9 phases, organized by user story.</td></tr>
+        <tr><td class="num">11</td><td class="nowrap">15:10</td><td class="nowrap">Analyze</td><td><div class="prompt">/speckit-analyze</div></td><td>14 findings: 0 critical, 2 high, 6 medium, 6 low.</td></tr>
+        <tr><td class="num">12</td><td class="nowrap">15:13</td><td class="nowrap">Remediate</td><td><div class="prompt">Update FR-017 to say bakery-local time, and add timeZone to the
 Business Info entity.SC-007 requires zero WCAG 2.1 AA violations from an automated check. The only
 automated gate is a Lighthouse accessibility score ≥ 0.90, which can pass while some
 accessibility audits fail.In lighthouserc.json (T003), treat every individual accessibility audit
 as an error, not just the category score. Alternatively, reword SC-007 to match the
 gate.</div></td><td>Fixed the time-zone conflict; accessibility gate raised to 100.</td></tr>
-        <tr><td class="num">14</td><td class="nowrap">15:18</td><td class="nowrap">Remediate</td><td><div class="prompt">Make site.js the base module with no imports, and move
+        <tr><td class="num">13</td><td class="nowrap">15:18</td><td class="nowrap">Remediate</td><td><div class="prompt">Make site.js the base module with no imports, and move
 loadMenu/normalizeMenu into it. menu.js, cart.js and form.js then import from
 site.js. Update the plan&#x27;s map and T016/T017/T043 to match.
 drop the site.js tag from pages that have their own entry module
@@ -366,7 +367,7 @@ T046 and T052.
 Add an &quot;Hours &amp; directions&quot; link to visit.html in the footer in T014.
 Add a cross-browser pass to T063: storage persistence, the date and
 time fields, Copy summary, and &quot;Open now&quot;.</div></td><td>Removed the circular imports; added hours to errors, footer link, cross-browser pass.</td></tr>
-        <tr><td class="num">15</td><td class="nowrap">15:20</td><td class="nowrap">Remediate</td><td><div class="prompt">Set contents: read at the top of the workflow and grant pages/id-token
+        <tr><td class="num">14</td><td class="nowrap">15:20</td><td class="nowrap">Remediate</td><td><div class="prompt">Set contents: read at the top of the workflow and grant pages/id-token
 only to the deploy job.
 Limit the check to text outside the About page&#x27;s story section, or only
 to &lt;h3&gt; card headings and price patterns.
@@ -379,14 +380,13 @@ Keep the single-file rule in FR-005, and keep FR-004 about consistency
 and the footer fallback.
 Record the verification in checklists/ instead, and keep the owner
 guide only for instructions.</div></td><td>Fixed the remaining 7 findings.</td></tr>
-        <tr><td class="num">16</td><td class="nowrap">15:22</td><td class="nowrap">Analyze</td><td><div class="prompt">/speckit-analyze</div></td><td>Second run: 4 new findings.</td></tr>
-        <tr><td class="num">17</td><td class="nowrap">15:24</td><td class="nowrap">Remediate</td><td><div class="prompt">fix all 4, reword FR-033</div></td><td>Fixed all 4; reworded FR-033.</td></tr>
-        <tr><td class="num">18</td><td class="nowrap">15:25</td><td class="nowrap">Implement</td><td><div class="prompt">/speckit-implement</div></td><td>Built the site, QA suite, and workflow phase by phase.</td></tr>
-        <tr><td class="num">19</td><td class="nowrap">15:34</td><td class="nowrap">Implement</td><td><div class="prompt">continue</div></td><td>Resumed after an interruption.</td></tr>
-        <tr><td class="num">20</td><td class="nowrap">16:07</td><td class="nowrap">Manual QA</td><td><div class="prompt">give me a dev server to do the screen reader oass</div></td><td>Started a local server for the screen-reader pass.</td></tr>
-        <tr><td class="num">21</td><td class="nowrap">16:18</td><td class="nowrap">Extensions</td><td><div class="prompt">specify extension list</div></td><td>No extensions installed; 183 in the catalog, 5 installable.</td></tr>
-        <tr><td class="num">22</td><td class="nowrap">16:19</td><td class="nowrap">Extensions</td><td><div class="prompt">/speckit.bakery-qa.menu-check</div></td><td>Not yet a registered command, so ran the qa/ script directly: passed.</td></tr>
-        <tr><td class="num">23</td><td class="nowrap">16:20</td><td class="nowrap">Extension build</td><td><div class="prompt">Package the existing qa/ suite as a Spec Kit extension. Don&#x27;t rewrite the
+        <tr><td class="num">15</td><td class="nowrap">15:22</td><td class="nowrap">Analyze</td><td><div class="prompt">/speckit-analyze</div></td><td>Second run: 4 new findings.</td></tr>
+        <tr><td class="num">16</td><td class="nowrap">15:24</td><td class="nowrap">Remediate</td><td><div class="prompt">fix all 4, reword FR-033</div></td><td>Fixed all 4; reworded FR-033.</td></tr>
+        <tr><td class="num">17</td><td class="nowrap">15:25</td><td class="nowrap">Implement</td><td><div class="prompt">/speckit-implement</div></td><td>Built the site, QA suite, and workflow phase by phase.</td></tr>
+        <tr><td class="num">18</td><td class="nowrap">16:07</td><td class="nowrap">Manual QA</td><td><div class="prompt">give me a dev server to do the screen reader oass</div></td><td>Started a local server for the screen-reader pass.</td></tr>
+        <tr><td class="num">19</td><td class="nowrap">16:18</td><td class="nowrap">Extensions</td><td><div class="prompt">specify extension list</div></td><td>No extensions installed; 183 in the catalog, 5 installable.</td></tr>
+        <tr><td class="num">20</td><td class="nowrap">16:19</td><td class="nowrap">Extensions</td><td><div class="prompt">/speckit.bakery-qa.menu-check</div></td><td>Not yet a registered command, so ran the qa/ script directly: passed.</td></tr>
+        <tr><td class="num">21</td><td class="nowrap">16:20</td><td class="nowrap">Extension build</td><td><div class="prompt">Package the existing qa/ suite as a Spec Kit extension. Don&#x27;t rewrite the
 checks; reuse the qa/ scripts.
 
 Create extensions/bakery-qa/ with:
@@ -404,11 +404,11 @@ Create extensions/bakery-qa/ with:
 
 Follow the official Spec Kit extension format exactly. Show me the
 extension.yml when done.</div></td><td>Packaged qa/ as the bakery-qa extension; validated with Spec Kit&#x27;s own validator.</td></tr>
-        <tr><td class="num">24</td><td class="nowrap">16:22</td><td class="nowrap">Extension install</td><td><div class="prompt">specify extension add --dev extensions/bakery-qa</div></td><td>Installed; 2 commands and 2 hooks registered.</td></tr>
-        <tr><td class="num">25</td><td class="nowrap">16:23</td><td class="nowrap">Extension run</td><td><div class="prompt">yes</div></td><td>Ran /speckit-bakery-qa-menu-check: passed.</td></tr>
-        <tr><td class="num">26</td><td class="nowrap">16:24</td><td class="nowrap">Extension run</td><td><div class="prompt">/speckit-bakery-qa-site-audit</div></td><td>Ran /speckit-bakery-qa-site-audit: all stages passed, Lighthouse 100s.</td></tr>
-        <tr><td class="num">27</td><td class="nowrap">16:29</td><td class="nowrap">Git</td><td><div class="prompt">git init and commit everything</div></td><td>Paused to write this report first.</td></tr>
-        <tr><td class="num">28</td><td class="nowrap">16:31</td><td class="nowrap">Report</td><td><div class="prompt">commit everything actually before commit can you make an indepth report on what prompts I used, what is the website, what are the 2 extensions built in the projects what were the reports after running the extensions, lighthouse report, what speckit commands were used - to present it to a interviewer</div></td><td>This document.</td></tr>
+        <tr><td class="num">22</td><td class="nowrap">16:22</td><td class="nowrap">Extension install</td><td><div class="prompt">specify extension add --dev extensions/bakery-qa</div></td><td>Installed; 2 commands and 2 hooks registered.</td></tr>
+        <tr><td class="num">23</td><td class="nowrap">16:23</td><td class="nowrap">Extension run</td><td><div class="prompt">yes</div></td><td>Ran /speckit-bakery-qa-menu-check: passed.</td></tr>
+        <tr><td class="num">24</td><td class="nowrap">16:24</td><td class="nowrap">Extension run</td><td><div class="prompt">/speckit-bakery-qa-site-audit</div></td><td>Ran /speckit-bakery-qa-site-audit: all stages passed, Lighthouse 100s.</td></tr>
+        <tr><td class="num">25</td><td class="nowrap">16:29</td><td class="nowrap">Git</td><td><div class="prompt">git init and commit everything</div></td><td>Paused to write this report first.</td></tr>
+        <tr><td class="num">26</td><td class="nowrap">16:31</td><td class="nowrap">Report</td><td><div class="prompt">commit everything actually before commit can you make an indepth report on what prompts I used, what is the website, what are the 2 extensions built in the projects what were the reports after running the extensions, lighthouse report, what speckit commands were used - to present it to a interviewer</div></td><td>This document.</td></tr>
       </tbody>
     </table>
   </div>

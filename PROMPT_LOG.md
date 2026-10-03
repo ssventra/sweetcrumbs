@@ -434,3 +434,25 @@ _Session: fba15269-dc8f-420d-8a56-d58deb7c70ef_
 ```text
 name the github repo sweetcrumbs.github.io
 ```
+
+---
+
+### 2026-10-03 16:42:30 EDT
+_Session: fba15269-dc8f-420d-8a56-d58deb7c70ef_
+
+```text
+then let it go live at ssventra.github.io/sweetcrumbs
+```
+
+---
+
+### 2026-10-03 16:46:21 EDT
+_Session: fba15269-dc8f-420d-8a56-d58deb7c70ef_
+
+```text
+remove this from report 1    14:37    Setup    
+whatever prompts I use in the folder have a log of it, I want to submit this as a project for an interview
+Added a Claude Code hook that logs every prompt to PROMPT_LOG.md (this table).  19    15:34    Implement    
+continue
+Resumed after an interruption.
+```
