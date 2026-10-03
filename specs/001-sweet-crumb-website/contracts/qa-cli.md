@@ -61,7 +61,7 @@ Everything in [menu.schema.json](./menu.schema.json) **plus**:
 (filtering/search, cart reconciliation and clamping, totals in cents, pickup slots and lead
 time in the bakery time zone, email builders and length guard, form validators).
 
-**Static checks** on every `site/**/*.html`:
+**Static checks** on every `site/**/*.html` except `site/report/`, the published build report. It is project documentation rather than a bakery page, and legitimately names menu items and uses its own styles:
 
 | Check | Constitution / spec |
 |---|---|

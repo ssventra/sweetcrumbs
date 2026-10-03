@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sweet Crumb Build Report</title>
+<meta name="description" content="How the Sweet Crumb Bakery website was specified, built, and verified with Spec Kit and Claude Code: prompts, Spec Kit commands, the bakery-qa extension, and Lighthouse results.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (≈ 46rem prose) inside a 68rem frame; wide tables scroll in their own box. */
+:root {
+  --bg: #fbfaf8;
+  --surface: #f2efea;
+  --ink: #1f1b18;
+  --muted: #5e5650;
+  --line: #ddd6cd;
+  --accent: #9e2b3a;
+  --pass: #3f6a3b;
+  --pass-bg: #e6efe3;
+  --warn: #8a5a00;
+  --warn-bg: #f7ecd4;
+  --code-bg: #efebe5;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.6rem;
+  --step-3: clamp(2.2rem, 5vw, 3.2rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #161412;
+    --surface: #211e1b;
+    --ink: #ece7e0;
+    --muted: #b3aaa1;
+    --line: #3a3530;
+    --accent: #e98593;
+    --pass: #9cc796;
+    --pass-bg: #1f2d1d;
+    --warn: #e5bd6c;
+    --warn-bg: #33281a;
+    --code-bg: #26221f;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #161412;
+  --surface: #211e1b;
+  --ink: #ece7e0;
+  --muted: #b3aaa1;
+  --line: #3a3530;
+  --accent: #e98593;
+  --pass: #9cc796;
+  --pass-bg: #1f2d1d;
+  --warn: #e5bd6c;
+  --warn-bg: #33281a;
+  --code-bg: #26221f;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+.frame { max-width: 68rem; margin-inline: auto; padding-block: 3rem 5rem; }
+.prose { max-width: 46rem; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: var(--step-3); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: var(--step-2); font-weight: 700; }
+h3 { font-size: var(--step-1); font-weight: 500; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code, .mono { font-family: var(--font-mono); font-size: 0.9em; }
+code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 4px; }
+pre { margin: 0; background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 1rem; overflow-x: auto; font-family: var(--font-mono); font-size: var(--step--1); line-height: 1.5; }
+pre code { background: none; padding: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+/* header */
+.masthead { display: grid; gap: 1.25rem; padding-bottom: 2rem; border-bottom: 2px solid var(--ink); }
+.lede { font-size: var(--step-1); line-height: 1.5; max-width: 44rem; color: var(--ink); }
+.facts { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 0; padding: 0; list-style: none; }
+.facts li { display: grid; }
+.facts dt, .facts .k { font-size: var(--step--1); color: var(--muted); }
+.facts .v { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; font-variant-numeric: tabular-nums; }
+.back { margin: 0 0 1.5rem; font-size: var(--step--1); }
+.links { font-size: var(--step-0); }
+.toc { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); }
+
+/* sections */
+section.part { display: grid; gap: 1.25rem; padding-block: 3rem 0; }
+section.part > header { display: grid; gap: 0.4rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
+.stack { display: grid; gap: 1rem; }
+.sub { display: grid; gap: 0.75rem; margin-top: 1rem; }
+ul.plain { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.35rem; }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+th, td { text-align: left; vertical-align: top; padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--line); }
+thead th { background: var(--surface); font-weight: 600; white-space: nowrap; }
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nowrap { white-space: nowrap; }
+.prompt { white-space: pre-wrap; font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.45; min-width: 22rem; }
+.muted { color: var(--muted); }
+
+/* status chips */
+.chip { display: inline-block; padding: 0 0.5rem; border-radius: 999px; font-size: 0.8125rem; font-weight: 600; white-space: nowrap; }
+.chip.pass { background: var(--pass-bg); color: var(--pass); }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.cmd { background: var(--code-bg); color: var(--ink); font-family: var(--font-mono); font-weight: 500; }
+
+/* screenshots */
+.shots { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); align-items: start; }
+.shots.wide { grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); }
+figure { margin: 0; display: grid; gap: 0.4rem; }
+figure img { width: 100%; max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; display: block; background: var(--surface); }
+figcaption { font-size: var(--step--1); color: var(--muted); }
+
+/* module chain */
+.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: var(--step--1); }
+.chain span.node { border: 1px solid var(--line); background: var(--surface); padding: 0.2rem 0.55rem; border-radius: 6px; }
+.chain span.node.base { border-color: var(--accent); color: var(--accent); }
+
+/* callout */
+.callout { border-left: 4px solid var(--accent); background: var(--surface); padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; display: grid; gap: 0.5rem; }
+
+/* LCP chart: bars drawn to one scale, 0 to 2.5 s (the "good" LCP threshold) */
+.chart { display: grid; gap: 0.5rem; max-width: 40rem; }
+.bar-row { display: grid; grid-template-columns: 9rem 1fr 3.5rem; gap: 0.75rem; align-items: center; font-size: var(--step--1); }
+.bar-track { position: relative; height: 0.9rem; background: var(--surface); border-radius: 3px; border: 1px solid var(--line); }
+.bar { position: absolute; inset: 0 auto 0 0; background: var(--pass); border-radius: 2px; }
+.bar-row .val { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
+.axis { display: grid; grid-template-columns: 9rem 1fr 3.5rem; gap: 0.75rem; font-size: 0.75rem; color: var(--muted); }
+.axis .ticks { display: flex; justify-content: space-between; font-family: var(--font-mono); }
+
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+details { border: 1px solid var(--line); border-radius: 8px; padding: 0.75rem 1rem; background: var(--bg); }
+details[open] { padding-bottom: 1rem; }
+summary { cursor: pointer; font-weight: 600; }
+details > :not(summary) { margin-top: 0.75rem; }
+
+.two-col { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); align-items: start; }
+footer.end { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: var(--step--1); color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+
+<div class="frame">
+<p class="back"><a href="../index.html">← Back to the Sweet Crumb Bakery site</a></p>
+
+<header class="masthead">
+  <p class="eyebrow">Interview project · Built spec-first with Spec Kit and Claude Code · 3 October 2026</p>
+  <h1>Sweet Crumb Build Report</h1>
+  <p class="lede">A six-page static website for a neighborhood bakery, taken from a one-paragraph idea to a deployed-ready site through Spec Kit's full workflow. Every prompt was logged automatically, every feature passed a custom QA gate, and every page scores 100 in all four Lighthouse categories.</p>
+  <p class="links"><strong>Live site:</strong> <a href="https://ssventra.github.io/sweetcrumbs/">ssventra.github.io/sweetcrumbs</a> &nbsp;·&nbsp; <strong>Code:</strong> <a href="https://github.com/ssventra/sweetcrumbs">github.com/ssventra/sweetcrumbs</a></p>
+  <ul class="facts" aria-label="Key facts">
+    <li><span class="k">Pages</span><span class="v">6 + 404</span></li>
+    <li><span class="k">Runtime dependencies</span><span class="v">0</span></li>
+    <li><span class="k">Tasks completed</span><span class="v">61 / 63</span></li>
+    <li><span class="k">Unit tests</span><span class="v">58 passing</span></li>
+    <li><span class="k">Lighthouse (all pages)</span><span class="v">100 · 100 · 100 · 100</span></li>
+    <li><span class="k">Prompts I typed</span><span class="v">24</span></li>
+  </ul>
+  <nav aria-label="Sections">
+    <ul class="toc">
+      <li><a href="#website">The website</a></li>
+      <li><a href="#speckit">Spec Kit commands</a></li>
+      <li><a href="#prompts">Prompts</a></li>
+      <li><a href="#extension">bakery-qa extension</a></li>
+      <li><a href="#runs">Extension reports</a></li>
+      <li><a href="#lighthouse">Lighthouse</a></li>
+      <li><a href="#verification">Verification &amp; open items</a></li>
+      <li><a href="#repo">Repository</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ============================================================ WEBSITE -->
+<section class="part" id="website" aria-labelledby="website-title">
+  <header>
+    <p class="eyebrow">Part 1</p>
+    <h2 id="website-title">The website: Sweet Crumb Bakery</h2>
+  </header>
+  <div class="prose stack">
+    <p>Sweet Crumb is a fictional neighborhood bakery. Customers can browse the menu with filters, search, and allergen labels; see today's specials and whether the bakery is open right now; save a pre-order list and send it by email; and request a custom cake. The owner keeps everything current by editing <strong>one JSON file</strong>: menu items, prices, sold-out status, specials, opening hours, and announcements.</p>
+    <p>It is plain HTML, one CSS file, and five vanilla JavaScript modules. There is no framework, no build step, and no backend, and it deploys to GitHub Pages or Netlify as-is.</p>
+  </div>
+
+  <div class="shots wide">
+    <figure>
+      <img src="screenshots/home-desktop.webp" width="1280" height="800" alt="Sweet Crumb home page on desktop: dark brown header with navigation and a pre-order counter, a hero image of bread shelves with the bakery name, tagline, and buttons for the menu and custom cakes" loading="lazy">
+      <figcaption>Home on desktop: hero, then featured items, today's specials, and hours.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/cakes-errors-desktop.webp" width="1100" height="760" alt="Custom cake form after submitting it empty: an error summary titled 'Please fix 6 problems' lists each missing field as a link, and invalid fields are outlined with their messages below" loading="lazy">
+      <figcaption>Custom Cakes: the error summary takes focus and links to each field. Date errors include the weekly hours.</figcaption>
+    </figure>
+  </div>
+  <div class="shots">
+    <figure>
+      <img src="screenshots/menu-mobile.webp" width="390" height="844" alt="Menu page on a phone, filtered to Pastries with 6 items shown: a butter croissant card with price, allergen badges, and an Add to pre-order button with a check mark, and a dark toast confirming the item was added" loading="lazy">
+      <figcaption>Menu on a phone: Pastries filter, allergen badges, and the "Added" confirmation, which is both visible and announced.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/preorder-mobile.webp" width="390" height="844" alt="Pre-order list on a phone: Country Sourdough quantity 2 and Chocolate Chip Cookie quantity 6 with steppers and line totals, and a Cinnamon Roll flagged 'Sold out — will not be sent'" loading="lazy">
+      <figcaption>Pre-order list: saved in the browser, re-priced from the live menu, and sold-out items are flagged and left out.</figcaption>
+    </figure>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <caption class="vh">Pages and what they do</caption>
+      <thead><tr><th scope="col">Page</th><th scope="col">What visitors can do</th><th scope="col">User story</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Menu</th><td>Filter by category, search as they type, read allergen badges, see sold-out items, add to pre-order</td><td>US1 (P1, MVP)</td></tr>
+        <tr><th scope="row"><code>data/menu.json</code></th><td>Owner edits one file; a plain-language guide sits next to it</td><td>US2 (P2)</td></tr>
+        <tr><th scope="row">Home &amp; Visit</th><td>Hero, featured items, today's specials, weekly hours with "Open now / Closed now", address, map, directions</td><td>US3 (P3)</td></tr>
+        <tr><th scope="row">Pre-order</th><td>Adjust quantities (1–99), see an estimated total, pick a pickup slot, send a pre-filled email</td><td>US4 (P4)</td></tr>
+        <tr><th scope="row">Custom Cakes</th><td>Validated request form; sends through a form service or falls back to email</td><td>US5 (P5)</td></tr>
+        <tr><th scope="row">About</th><td>The bakery's story and team</td><td>US6 (P6)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two-col">
+    <div class="sub">
+      <h3>Architecture</h3>
+      <p>Each page loads exactly one JavaScript module. Imports only go one way, so there are no circular dependencies:</p>
+      <p class="chain" aria-label="Import chain: site.js is imported by form.js, which is imported by cart.js, then menu.js, then filters.js">
+        <span class="node base">site.js</span><span aria-hidden="true">←</span>
+        <span class="node">form.js</span><span aria-hidden="true">←</span>
+        <span class="node">cart.js</span><span aria-hidden="true">←</span>
+        <span class="node">menu.js</span><span aria-hidden="true">←</span>
+        <span class="node">filters.js</span>
+      </p>
+      <p class="muted"><code>site.js</code> imports nothing. It loads and normalizes the menu, handles the bakery's time zone, prices in integer cents, and the header count on every page.</p>
+    </div>
+    <div class="sub">
+      <h3>Decisions worth discussing</h3>
+      <ul class="plain">
+        <li><strong>Bakery time zone, not the visitor's.</strong> "Open now", today's specials, and pickup lead times are computed in <code>America/New_York</code>, so a visitor in Tokyo sees the right answer.</li>
+        <li><strong>Content can't drift into HTML.</strong> The audit fails the build if any menu item name appears in a page.</li>
+        <li><strong>Graceful failure.</strong> A broken <code>menu.json</code> shows "Our menu is being updated. Please call us." Blocked browser storage keeps the list in memory with a notice.</li>
+        <li><strong>Money in cents.</strong> Prices are typed as dollars and converted to integer cents before any arithmetic.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SPEC KIT -->
+<section class="part" id="speckit" aria-labelledby="speckit-title">
+  <header>
+    <p class="eyebrow">Part 2</p>
+    <h2 id="speckit-title">Spec Kit commands used</h2>
+  </header>
+  <p class="prose">The project followed Spec Kit's spec-driven workflow in order. Each step produced a document the next step read, and the implementation was checked against them.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Order</th><th scope="col">Command</th><th scope="col">What it produced</th><th scope="col">Highlights</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td><span class="chip cmd">/speckit-constitution</span></td><td><code>.specify/memory/constitution.md</code> (v1.0.0, later v1.0.1)</td><td>6 principles: pure static output, content-driven menu, WCAG 2.1 AA, Lighthouse ≥ 90, mobile-first, and a non-negotiable QA gate</td></tr>
+        <tr><td class="num">2</td><td><span class="chip cmd">/speckit-specify</span></td><td><code>spec.md</code> + quality checklist</td><td>6 prioritized user stories, 37 functional requirements, 9 measurable success criteria, 11 edge cases; checklist 16/16</td></tr>
+        <tr><td class="num">3</td><td><span class="chip cmd">/speckit-clarify</span></td><td>Clarifications in <code>spec.md</code></td><td>5 questions, one at a time (answers below)</td></tr>
+        <tr><td class="num">4</td><td><span class="chip cmd">/speckit-plan</span></td><td><code>plan.md</code>, <code>research.md</code> (16 decisions), <code>data-model.md</code>, 4 contracts, <code>quickstart.md</code></td><td>Constitution check passed before and after design</td></tr>
+        <tr><td class="num">5</td><td><span class="chip cmd">/speckit-tasks</span></td><td><code>tasks.md</code></td><td>63 tasks in 9 phases, organized by user story; 18 parallelizable</td></tr>
+        <tr><td class="num">6</td><td><span class="chip cmd">/speckit-analyze</span> ×2</td><td>Consistency reports (read-only)</td><td>Run 1: 14 findings (0 critical, 2 high). Run 2: 4 findings. All fixed before implementation</td></tr>
+        <tr><td class="num">7</td><td><span class="chip cmd">/speckit-implement</span></td><td><code>site/</code>, <code>qa/</code>, deploy workflow</td><td>61 of 63 tasks done; 2 need a person (screen reader, other browsers)</td></tr>
+        <tr><td class="num">8</td><td><span class="chip cmd">specify extension add --dev</span></td><td>Installed the <code>bakery-qa</code> extension</td><td>Registered 2 commands and 2 lifecycle hooks</td></tr>
+        <tr><td class="num">9</td><td><span class="chip cmd">/speckit-bakery-qa-menu-check</span><br><span class="chip cmd">/speckit-bakery-qa-site-audit</span></td><td>QA reports</td><td>Both passed (Part 5)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two-col">
+    <div class="sub">
+      <h3>The 5 clarification decisions</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Question</th><th scope="col">Answer</th></tr></thead>
+          <tbody>
+            <tr><td>Where do hours and contact details live?</td><td>In <code>menu.json</code>, next to the menu (one file to edit)</td></tr>
+            <tr><td>Can an item have several sizes or prices?</td><td>No: one price plus an optional unit label</td></tr>
+            <tr><td>Can cake requests attach inspiration photos?</td><td>No: describe the design in text</td></tr>
+            <tr><td>Is the pre-order list a page or a panel?</td><td>Its own page, with a header count</td></tr>
+            <tr><td>Support dated holiday closures?</td><td>No: weekly hours plus a free-text announcement</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="sub">
+      <h3>What the analysis caught</h3>
+      <ul class="plain">
+        <li>The spec said "visitor's local time" while the plan used the bakery's time zone.</li>
+        <li>The accessibility gate (Lighthouse ≥ 90) could pass with violations. It was raised to 100.</li>
+        <li>A circular import between <code>site.js</code>, <code>menu.js</code>, and <code>cart.js</code>, fixed by making <code>site.js</code> a base module.</li>
+        <li>The announcement would have rendered twice on four pages.</li>
+        <li>Deploy permissions were granted to the whole workflow instead of only the deploy job.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PROMPTS -->
+<section class="part" id="prompts" aria-labelledby="prompts-title">
+  <header>
+    <p class="eyebrow">Part 3</p>
+    <h2 id="prompts-title">Every prompt I used</h2>
+  </header>
+  <div class="prose stack">
+    <p>A Claude Code <code>UserPromptSubmit</code> hook appends every prompt typed in this folder to <code>PROMPT_LOG.md</code>, with a timestamp. The table below is generated from that log, quoted exactly.</p>
+    <p class="muted">The log also contains 5 automated "background task finished" notifications, which Claude Code delivers through the same channel as prompts. They are left out here, and the hook was changed to skip them.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col" class="num">#</th><th scope="col">Time (EDT)</th><th scope="col">Stage</th><th scope="col">Prompt (exact)</th><th scope="col">What happened</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td class="nowrap">14:37</td><td class="nowrap">Constitution</td><td><div class="prompt">/speckit-constitution Create principles for a static bakery website:
+- Pure static output: HTML, CSS, vanilla JS. No backend, no framework, no build
+  step required to view (optional tiny build script allowed).
+- Content-driven: all menu items live in data/menu.json, never hardcoded in HTML.
+- Accessibility: WCAG 2.1 AA, keyboard navigable, semantic HTML.
+- Performance: Lighthouse 90+ on all categories, images in WebP, lazy-loaded.
+- Mobile-first responsive design.
+- Every feature must pass the bakery-qa extension checks before it is done.
+- Deployable to GitHub Pages or Netlify as-is.</div></td><td>Wrote constitution v1.0.0 with 6 principles; flagged that the bakery-qa extension didn&#x27;t exist yet.</td></tr>
+        <tr><td class="num">2</td><td class="nowrap">14:41</td><td class="nowrap">Specify</td><td><div class="prompt">/speckit-specify Build a static website for &quot;Sweet Crumb Bakery&quot;, a local
+neighborhood bakery. Pages: Home (hero, featured items, today&#x27;s specials,
+hours), Menu (filter by category: breads, pastries, cakes, cookies; search;
+allergen badges; &quot;sold out&quot; state), About (story, team), Custom Cake Orders
+(a form that builds a request and sends it via a static form service or a
+mailto: fallback), and Contact/Visit (map embed, hours, address).
+Visitors can add items to a pre-order list stored in localStorage and send it
+as an email summary. The owner updates the menu by editing one JSON file.
+Warm, rustic look.</div></td><td>spec.md: 6 user stories, 37 requirements, 9 success criteria; quality checklist 16/16.</td></tr>
+        <tr><td class="num">3</td><td class="nowrap">14:45</td><td class="nowrap">Clarify</td><td><div class="prompt">/speckit-clarify</div></td><td>Asked 5 questions, one at a time.</td></tr>
+        <tr><td class="num">4</td><td class="nowrap">14:47</td><td class="nowrap">Clarify Q1</td><td><div class="prompt">A</div></td><td>Business details live in menu.json; phone and address also in the footer.</td></tr>
+        <tr><td class="num">5</td><td class="nowrap">14:52</td><td class="nowrap">Clarify Q2</td><td><div class="prompt">b</div></td><td>One price per item plus an optional unit label.</td></tr>
+        <tr><td class="num">6</td><td class="nowrap">14:54</td><td class="nowrap">Clarify Q3</td><td><div class="prompt">A</div></td><td>No inspiration photos; design described in text.</td></tr>
+        <tr><td class="num">7</td><td class="nowrap">14:55</td><td class="nowrap">Clarify Q4</td><td><div class="prompt">A</div></td><td>Pre-order list is its own page with a header count.</td></tr>
+        <tr><td class="num">8</td><td class="nowrap">14:56</td><td class="nowrap">Clarify Q5</td><td><div class="prompt">A</div></td><td>Weekly hours only, plus a free-text announcement.</td></tr>
+        <tr><td class="num">9</td><td class="nowrap">14:59</td><td class="nowrap">Plan</td><td><div class="prompt">/speckit-plan Use semantic HTML5, one CSS file using custom properties for the
+theme, and ES modules for JS (menu.js, cart.js, filters.js, form.js). Load the
+menu from data/menu.json with fetch. Store the pre-order list in localStorage
+with try/catch fallback. Images go in assets/img as WebP. Use a Node script for
+the bakery-qa checks only. Deploy with a GitHub Actions workflow to GitHub
+Pages that runs menu-check and site-audit before deploying.</div></td><td>plan.md, research (16 decisions), data model, 4 contracts, quickstart; site/ folder and site.js added.</td></tr>
+        <tr><td class="num">10</td><td class="nowrap">15:05</td><td class="nowrap">Tasks</td><td><div class="prompt">/speckit-tasks</div></td><td>63 tasks in 9 phases, organized by user story.</td></tr>
+        <tr><td class="num">11</td><td class="nowrap">15:10</td><td class="nowrap">Analyze</td><td><div class="prompt">/speckit-analyze</div></td><td>14 findings: 0 critical, 2 high, 6 medium, 6 low.</td></tr>
+        <tr><td class="num">12</td><td class="nowrap">15:13</td><td class="nowrap">Remediate</td><td><div class="prompt">Update FR-017 to say bakery-local time, and add timeZone to the
+Business Info entity.SC-007 requires zero WCAG 2.1 AA violations from an automated check. The only
+automated gate is a Lighthouse accessibility score ≥ 0.90, which can pass while some
+accessibility audits fail.In lighthouserc.json (T003), treat every individual accessibility audit
+as an error, not just the category score. Alternatively, reword SC-007 to match the
+gate.</div></td><td>Fixed the time-zone conflict; accessibility gate raised to 100.</td></tr>
+        <tr><td class="num">13</td><td class="nowrap">15:18</td><td class="nowrap">Remediate</td><td><div class="prompt">Make site.js the base module with no imports, and move
+loadMenu/normalizeMenu into it. menu.js, cart.js and form.js then import from
+site.js. Update the plan&#x27;s map and T016/T017/T043 to match.
+drop the site.js tag from pages that have their own entry module
+(their entry module imports site.js anyway)
+Add the weekly hours (from hoursRows) to the pickup-date error text in
+T046 and T052.
+Add an &quot;Hours &amp; directions&quot; link to visit.html in the footer in T014.
+Add a cross-browser pass to T063: storage persistence, the date and
+time fields, Copy summary, and &quot;Open now&quot;.</div></td><td>Removed the circular imports; added hours to errors, footer link, cross-browser pass.</td></tr>
+        <tr><td class="num">14</td><td class="nowrap">15:20</td><td class="nowrap">Remediate</td><td><div class="prompt">Set contents: read at the top of the workflow and grant pages/id-token
+only to the deploy job.
+Limit the check to text outside the About page&#x27;s story section, or only
+to &lt;h3&gt; card headings and price patterns.
+Change it to &quot;the map does not load before the visitor scrolls to it.&quot;
+Put the logo SVG directly in the HTML, or exempt images in the
+&lt;header&gt;.
+Pick one label per page (for example, the nav text) and add a note on
+it once in the spec.
+Keep the single-file rule in FR-005, and keep FR-004 about consistency
+and the footer fallback.
+Record the verification in checklists/ instead, and keep the owner
+guide only for instructions.</div></td><td>Fixed the remaining 7 findings.</td></tr>
+        <tr><td class="num">15</td><td class="nowrap">15:22</td><td class="nowrap">Analyze</td><td><div class="prompt">/speckit-analyze</div></td><td>Second run: 4 new findings.</td></tr>
+        <tr><td class="num">16</td><td class="nowrap">15:24</td><td class="nowrap">Remediate</td><td><div class="prompt">fix all 4, reword FR-033</div></td><td>Fixed all 4; reworded FR-033.</td></tr>
+        <tr><td class="num">17</td><td class="nowrap">15:25</td><td class="nowrap">Implement</td><td><div class="prompt">/speckit-implement</div></td><td>Built the site, QA suite, and workflow phase by phase.</td></tr>
+        <tr><td class="num">18</td><td class="nowrap">16:07</td><td class="nowrap">Manual QA</td><td><div class="prompt">give me a dev server to do the screen reader oass</div></td><td>Started a local server for the screen-reader pass.</td></tr>
+        <tr><td class="num">19</td><td class="nowrap">16:18</td><td class="nowrap">Extensions</td><td><div class="prompt">specify extension list</div></td><td>No extensions installed; 183 in the catalog, 5 installable.</td></tr>
+        <tr><td class="num">20</td><td class="nowrap">16:19</td><td class="nowrap">Extensions</td><td><div class="prompt">/speckit.bakery-qa.menu-check</div></td><td>Not yet a registered command, so ran the qa/ script directly: passed.</td></tr>
+        <tr><td class="num">21</td><td class="nowrap">16:20</td><td class="nowrap">Extension build</td><td><div class="prompt">Package the existing qa/ suite as a Spec Kit extension. Don&#x27;t rewrite the
+checks; reuse the qa/ scripts.
+
+Create extensions/bakery-qa/ with:
+- extension.yml (schema_version &quot;1.0&quot;, extension id &quot;bakery-qa&quot;, name,
+  version 1.0.0, description, author)
+- provides.commands:
+    speckit.bakery-qa.menu-check  -&gt; commands/menu-check.md
+    speckit.bakery-qa.site-audit  -&gt; commands/site-audit.md
+- each command .md file has description frontmatter, a $ARGUMENTS section,
+  and steps that run the matching qa/ script and report results as a table
+- hooks: after_tasks -&gt; speckit.bakery-qa.menu-check (optional: true,
+  prompt &quot;Run menu check?&quot;); after_implement -&gt; speckit.bakery-qa.site-audit
+  (optional: false)
+- README.md explaining both commands
+
+Follow the official Spec Kit extension format exactly. Show me the
+extension.yml when done.</div></td><td>Packaged qa/ as the bakery-qa extension; validated with Spec Kit&#x27;s own validator.</td></tr>
+        <tr><td class="num">22</td><td class="nowrap">16:22</td><td class="nowrap">Extension install</td><td><div class="prompt">specify extension add --dev extensions/bakery-qa</div></td><td>Installed; 2 commands and 2 hooks registered.</td></tr>
+        <tr><td class="num">23</td><td class="nowrap">16:23</td><td class="nowrap">Extension run</td><td><div class="prompt">yes</div></td><td>Ran /speckit-bakery-qa-menu-check: passed.</td></tr>
+        <tr><td class="num">24</td><td class="nowrap">16:24</td><td class="nowrap">Extension run</td><td><div class="prompt">/speckit-bakery-qa-site-audit</div></td><td>Ran /speckit-bakery-qa-site-audit: all stages passed, Lighthouse 100s.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ EXTENSION -->
+<section class="part" id="extension" aria-labelledby="extension-title">
+  <header>
+    <p class="eyebrow">Part 4</p>
+    <h2 id="extension-title">The bakery-qa extension and its two commands</h2>
+  </header>
+  <div class="prose stack">
+    <p>The constitution says no feature is done until it passes "the bakery-qa extension checks", but no such extension existed. I built the checks as a Node suite in <code>qa/</code>, then packaged it as a Spec Kit extension in <code>extensions/bakery-qa/</code>, following the format of Spec Kit's own bundled extensions. The manifest passes Spec Kit's validator.</p>
+    <p>The extension adds no logic of its own. Each command runs an existing <code>qa/</code> script and reports the result as a table, so the same checks also run in CI.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="sub">
+      <h3>1 · <code>speckit.bakery-qa.menu-check</code></h3>
+      <p>Validates <code>site/data/menu.json</code>, the file the owner edits.</p>
+      <ul class="plain">
+        <li><strong>Errors:</strong> missing or wrong-typed fields, duplicate ids, prices with more than 2 decimals, missing image files or alt text, opening time not before closing, invalid time zone, no open days</li>
+        <li><strong>Warnings:</strong> unknown category or allergen, empty category, featured item that's sold out</li>
+        <li>Exit codes: 0 pass · 1 errors · 2 couldn't run (with line and column for broken JSON)</li>
+      </ul>
+    </div>
+    <div class="sub">
+      <h3>2 · <code>speckit.bakery-qa.site-audit</code></h3>
+      <p>Runs three stages against the published <code>site/</code> folder.</p>
+      <ul class="plain">
+        <li><strong>Unit tests</strong> with Node's built-in test runner (7 files, 58 tests)</li>
+        <li><strong>Static audit</strong> of every page: metadata, landmarks, image alt/size/WebP budgets, lazy loading, links that resolve, labelled form controls, one module script per page, no hard-coded menu items, and footer contact details matching <code>menu.json</code></li>
+        <li><strong>Lighthouse CI</strong> (mobile, 3 runs per page): Performance, Best Practices, SEO ≥ 90; Accessibility = 100</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Lifecycle hooks</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">When</th><th scope="col">Runs</th><th scope="col">Mandatory?</th><th scope="col">Why</th></tr></thead>
+        <tbody>
+          <tr><td>After <code>/speckit-tasks</code></td><td><code>menu-check</code></td><td><span class="chip warn">Optional</span> asks "Run menu check?"</td><td>Catch menu problems before building</td></tr>
+          <tr><td>After <code>/speckit-implement</code></td><td><code>site-audit</code></td><td><span class="chip pass">Mandatory</span></td><td>Constitution Principle VI: nothing is done until bakery-qa passes</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <details>
+    <summary>extensions/bakery-qa/extension.yml</summary>
+<pre><code>schema_version: &quot;1.0&quot;
+
+extension:
+  id: bakery-qa
+  name: &quot;Bakery QA&quot;
+  version: &quot;1.0.0&quot;
+  description: &quot;Quality gate for the Sweet Crumb Bakery site: validates the menu file and audits every page (unit tests, static checks, Lighthouse) using the project&#x27;s qa/ scripts&quot;
+  author: shravani
+  license: MIT
+
+requires:
+  speckit_version: &quot;&gt;=0.2.0&quot;
+  tools:
+    - name: node
+      version: &quot;&gt;=22.0.0&quot;
+      required: true
+
+provides:
+  commands:
+    - name: speckit.bakery-qa.menu-check
+      file: commands/menu-check.md
+      description: &quot;Validate site/data/menu.json against the menu contract and business rules&quot;
+    - name: speckit.bakery-qa.site-audit
+      file: commands/site-audit.md
+      description: &quot;Run unit tests, the static page audit, and Lighthouse against site/&quot;
+
+hooks:
+  after_tasks:
+    command: speckit.bakery-qa.menu-check
+    optional: true
+    prompt: &quot;Run menu check?&quot;
+    description: &quot;Validate the menu file once tasks are generated&quot;
+  after_implement:
+    command: speckit.bakery-qa.site-audit
+    optional: false
+    description: &quot;Constitution Principle VI: a feature is not done until bakery-qa passes&quot;
+
+tags:
+  - &quot;qa&quot;
+  - &quot;accessibility&quot;
+  - &quot;performance&quot;
+  - &quot;lighthouse&quot;
+  - &quot;static-site&quot;</code></pre>
+  </details>
+
+  <div class="callout">
+    <h3>Also built: the prompt-logging hook</h3>
+    <p>A Claude Code hook (<code>.claude/settings.json</code> → <code>.claude/hooks/log-prompt.sh</code>) that records every prompt in <code>PROMPT_LOG.md</code>. It is how Part 3 of this report was produced. It escapes multi-line prompts safely, never blocks a prompt, and skips automated task notifications.</p>
+  </div>
+</section>
+
+<!-- ============================================================ RUNS -->
+<section class="part" id="runs" aria-labelledby="runs-title">
+  <header>
+    <p class="eyebrow">Part 5</p>
+    <h2 id="runs-title">Reports from running the extension</h2>
+  </header>
+
+  <div class="sub">
+    <h3><code>/speckit-bakery-qa-menu-check</code></h3>
+    <pre><code>$ node qa/menu-check.mjs
+✔ menu-check: 20 items, 0 errors, 0 warnings          (exit 0)</code></pre>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">#</th><th scope="col">Severity</th><th scope="col">Where</th><th scope="col">Problem</th></tr></thead>
+        <tbody><tr><td>—</td><td><span class="chip pass">✔ Pass</span></td><td><code>site/data/menu.json</code></td><td>No problems found</td></tr></tbody>
+      </table>
+    </div>
+    <p class="muted">To show it catches problems, it was also run against deliberately broken copies: a 3-decimal price, a duplicate id, and an invalid time zone each failed with a precise message, and a missing comma reported <code>line 34 column 7</code>.</p>
+  </div>
+
+  <div class="sub">
+    <h3><code>/speckit-bakery-qa-site-audit</code></h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Stage</th><th scope="col">Result</th><th scope="col">Details</th></tr></thead>
+        <tbody>
+          <tr><td>Unit tests</td><td><span class="chip pass">✔ Pass</span></td><td>7 files, 58 tests, all passed</td></tr>
+          <tr><td>Static audit</td><td><span class="chip pass">✔ Pass</span></td><td>7 pages, 0 errors, 0 warnings</td></tr>
+          <tr><td>Lighthouse</td><td><span class="chip pass">✔ Pass</span></td><td>6 pages × 3 runs (mobile); all thresholds met</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Verdict: ✔ bakery-qa passed.</strong> The Principle VI gate is met.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Unit tests by file</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">File</th><th scope="col" class="num">Tests</th><th scope="col">Covers</th></tr></thead>
+        <tbody>
+          <tr><td><code>site.test.mjs</code></td><td class="num">9</td><td>Prices in cents, bakery time zone, open/closed boundaries, menu normalization, saved-list read rules</td></tr>
+          <tr><td><code>filters.test.mjs</code></td><td class="num">6</td><td>Category filter, case-insensitive search, combined filters</td></tr>
+          <tr><td><code>menu-check.test.mjs</code></td><td class="num">10</td><td>Runs the checker on broken fixture files and checks exit codes and messages</td></tr>
+          <tr><td><code>home.test.mjs</code></td><td class="num">4</td><td>Featured items, today's specials, hours rows, "Open now" text</td></tr>
+          <tr><td><code>cart.test.mjs</code></td><td class="num">10</td><td>Add/remove/clamp 1–99, storage failures, reconciling against the live menu, totals</td></tr>
+          <tr><td><code>preorder-form.test.mjs</code></td><td class="num">9</td><td>Pickup slots and 24-hour lead time, validation, exact email format, mailto length guard</td></tr>
+          <tr><td><code>cake-form.test.mjs</code></td><td class="num">10</td><td>72-hour lead time, closed days, form-service payload, email fallback format</td></tr>
+          <tr><th scope="row">Total</th><td class="num"><strong>58</strong></td><td>All passing</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ LIGHTHOUSE -->
+<section class="part" id="lighthouse" aria-labelledby="lighthouse-title">
+  <header>
+    <p class="eyebrow">Part 6</p>
+    <h2 id="lighthouse-title">Lighthouse report</h2>
+  </header>
+  <p class="prose">Lighthouse 12.6.1, mobile preset, 3 runs per page via Lighthouse CI. Scores are the lowest of the three runs; metrics are medians.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Page</th><th scope="col" class="num">Performance</th><th scope="col" class="num">Accessibility</th><th scope="col" class="num">Best Practices</th><th scope="col" class="num">SEO</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Home <span class="muted mono">index.html</span></th><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td></tr>
+        <tr><th scope="row">Menu <span class="muted mono">menu.html</span></th><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td></tr>
+        <tr><th scope="row">About <span class="muted mono">about.html</span></th><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td></tr>
+        <tr><th scope="row">Custom Cakes <span class="muted mono">custom-cakes.html</span></th><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td></tr>
+        <tr><th scope="row">Visit <span class="muted mono">visit.html</span></th><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td></tr>
+        <tr><th scope="row">Pre-order <span class="muted mono">preorder.html</span></th><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td><td class="num"><span class="chip pass">100</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Page</th><th scope="col" class="num">First Contentful Paint</th><th scope="col" class="num">Largest Contentful Paint</th><th scope="col" class="num">Total Blocking Time</th><th scope="col" class="num">Layout Shift (CLS)</th><th scope="col" class="num">Speed Index</th><th scope="col" class="num">Page weight</th><th scope="col" class="num">Requests</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Home</th><td class="num">1.05 s</td><td class="num">1.43 s</td><td class="num">0 ms</td><td class="num">0.000</td><td class="num">1.05 s</td><td class="num">75 KB</td><td class="num">15</td></tr>
+        <tr><th scope="row">Menu</th><td class="num">1.29 s</td><td class="num">1.44 s</td><td class="num">0 ms</td><td class="num">0.000</td><td class="num">1.29 s</td><td class="num">74 KB</td><td class="num">16</td></tr>
+        <tr><th scope="row">About</th><td class="num">0.90 s</td><td class="num">0.98 s</td><td class="num">0 ms</td><td class="num">0.000</td><td class="num">0.90 s</td><td class="num">22 KB</td><td class="num">10</td></tr>
+        <tr><th scope="row">Custom Cakes</th><td class="num">1.07 s</td><td class="num">1.37 s</td><td class="num">0 ms</td><td class="num">0.000</td><td class="num">1.07 s</td><td class="num">25 KB</td><td class="num">8</td></tr>
+        <tr><th scope="row">Visit</th><td class="num">0.90 s</td><td class="num">1.20 s</td><td class="num">0 ms</td><td class="num">0.000</td><td class="num">0.90 s</td><td class="num">322 KB</td><td class="num">12</td></tr>
+        <tr><th scope="row">Pre-order</th><td class="num">1.07 s</td><td class="num">1.37 s</td><td class="num">0 ms</td><td class="num">0.000</td><td class="num">1.07 s</td><td class="num">29 KB</td><td class="num">8</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub">
+    <h3>Largest Contentful Paint per page, against Google's 2.5 s "good" threshold</h3>
+    <div class="chart" role="img" aria-label="Largest Contentful Paint, all under the 2.5 second threshold: Home 1.43 seconds, Menu 1.44 seconds, About 0.98 seconds, Custom Cakes 1.37 seconds, Visit 1.20 seconds, Pre-order 1.37 seconds">
+      <div class="bar-row"><span>Home</span><span class="bar-track"><span class="bar" style="width:57.1%"></span></span><span class="val">1.43 s</span></div>
+      <div class="bar-row"><span>Menu</span><span class="bar-track"><span class="bar" style="width:57.4%"></span></span><span class="val">1.44 s</span></div>
+      <div class="bar-row"><span>About</span><span class="bar-track"><span class="bar" style="width:39.1%"></span></span><span class="val">0.98 s</span></div>
+      <div class="bar-row"><span>Custom Cakes</span><span class="bar-track"><span class="bar" style="width:55.0%"></span></span><span class="val">1.37 s</span></div>
+      <div class="bar-row"><span>Visit</span><span class="bar-track"><span class="bar" style="width:48.1%"></span></span><span class="val">1.20 s</span></div>
+      <div class="bar-row"><span>Pre-order</span><span class="bar-track"><span class="bar" style="width:54.7%"></span></span><span class="val">1.37 s</span></div>
+      <div class="axis" aria-hidden="true"><span></span><span class="ticks"><span>0 s</span><span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5 s</span></span><span></span></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>The first Lighthouse run failed, and that was the gate working</h3>
+    <p>On the first full run, Menu scored <strong>87</strong> and Visit <strong>85</strong> for Performance. Lighthouse blocked the build. The cause was layout shift, not speed: content rendered from <code>menu.json</code> pushed the allergen notice (Menu, CLS 0.252) and the map (Visit, CLS 0.289) down the page after it had painted.</p>
+    <p>The fix was to reserve space for the rendered content. I measured layout shift on every page at phone and desktop widths, then reran the gate. Both pages went to <strong>100</strong>, and CLS is now <strong>0.000</strong> everywhere.</p>
+  </div>
+</section>
+
+<!-- ============================================================ VERIFICATION -->
+<section class="part" id="verification" aria-labelledby="verification-title">
+  <header>
+    <p class="eyebrow">Part 7</p>
+    <h2 id="verification-title">Verification and open items</h2>
+  </header>
+  <div class="two-col">
+    <div class="sub">
+      <h3>Checked beyond Lighthouse</h3>
+      <ul class="plain">
+        <li>About 120 scripted browser checks in headless Chrome, one script per user story</li>
+        <li>The pre-order list survives a real browser restart (same profile, relaunched)</li>
+        <li>Visitors emulated in New York and Tokyo see the same "Open now" status and specials</li>
+        <li>All four cake-form paths: no service set up, service succeeds, service fails, spam trap</li>
+        <li>Every page at 320, 640 (≈ 200% zoom), 768, and 1280 px: no sideways scrolling, all controls ≥ 44 px</li>
+        <li>Keyboard: skip link, filters, focus moved to error summaries and confirmations</li>
+        <li>Owner edits made only in <code>menu.json</code> appeared on Menu, Home, and Pre-order</li>
+        <li>A clean copy of the repo with a fresh <code>npm ci</code> passes the gate</li>
+      </ul>
+    </div>
+    <div class="sub">
+      <h3>Still needs a person</h3>
+      <ul class="plain">
+        <li><span class="chip warn">T060</span> Screen-reader pass with VoiceOver or NVDA. Automated tools can't confirm everything.</li>
+        <li><span class="chip warn">T063</span> Firefox, Edge, Safari, and iOS Safari. Only Chrome could be automated on the build machine.</li>
+        <li><span class="chip warn">SC-003</span> Time a non-technical owner following the guide (target: under 10 minutes).</li>
+      </ul>
+      <p class="muted">Each has a checklist in <code>specs/001-sweet-crumb-website/checklists/</code>. These two tasks were left unchecked rather than marked done.</p>
+      <h3>Issues found and fixed during the build</h3>
+      <ul class="plain">
+        <li>Duplicate element ids when an item appeared twice on Home</li>
+        <li>"Added to pre-order" was announced but not visible; it is now a toast</li>
+        <li>Broken-image text overlapped a missing team photo</li>
+        <li>The prompt log was recording background notifications</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ REPO -->
+<section class="part" id="repo" aria-labelledby="repo-title">
+  <header>
+    <p class="eyebrow">Part 8</p>
+    <h2 id="repo-title">Repository and how to run it</h2>
+  </header>
+  <div class="two-col">
+<pre><code>site/                      the published website
+  *.html                   7 pages
+  css/styles.css           the only stylesheet
+  js/                      5 ES modules
+  data/menu.json           the one file the owner edits
+  data/README.md           owner guide
+qa/                        bakery-qa scripts + 7 test files
+extensions/bakery-qa/      the Spec Kit extension
+specs/001-sweet-crumb-website/
+  spec.md plan.md research.md data-model.md
+  contracts/ quickstart.md tasks.md checklists/
+.specify/memory/constitution.md
+.claude/hooks/log-prompt.sh  prompt logging
+.github/workflows/deploy.yml QA, then deploy
+PROMPT_LOG.md              every prompt</code></pre>
+<pre><code># view the site
+python3 -m http.server 8000 -d site
+
+# quality gate
+npm ci
+npm run menu-check
+npm run site-audit
+npm run qa        # + Lighthouse
+
+# Spec Kit extension
+specify extension list
+/speckit-bakery-qa-menu-check
+/speckit-bakery-qa-site-audit</code></pre>
+  </div>
+</section>
+
+<footer class="end">
+  <p>Sweet Crumb Bakery is fictional; its address, phone number, team, and photos are placeholders. Report generated on 3 October 2026 from the project's own logs and Lighthouse reports.</p>
+</footer>
+
+</div>
+
+</body>
+</html>

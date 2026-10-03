@@ -198,7 +198,10 @@ function staticAudit() {
   }
   const menuImages = new Set((menu.items ?? []).filter((i) => i.image).map((i) => basename(i.image)));
   auditImages(report, menuImages);
-  const pages = existsSync(SITE) ? listHtmlFiles(SITE) : [];
+  // site/report/ is the published build report (project documentation, not a bakery page),
+  // so the bakery page rules don't apply to it. See contracts/qa-cli.md.
+  const REPORT_DIR = join(SITE, 'report');
+  const pages = existsSync(SITE) ? listHtmlFiles(SITE).filter((f) => !f.startsWith(REPORT_DIR + '/')) : [];
   if (pages.length === 0) cannotRun(NAME, 'no HTML pages found in site/');
   for (const page of pages) auditPage(page, menu, report);
   report.summary(`${pages.length} pages`);

@@ -9,7 +9,7 @@ Built with plain HTML, CSS, and JavaScript modules: no framework, no build step,
 It was developed spec-first with [Spec Kit](https://github.com/github/spec-kit) and Claude Code.
 Every prompt used is in [`PROMPT_LOG.md`](PROMPT_LOG.md).
 
-> Screenshots: _add `docs/screenshots/*.png` here (Home, Menu, Pre-order on mobile and desktop)._
+**Live site:** <https://ssventra.github.io/sweetcrumbs/> · **Build report:** <https://ssventra.github.io/sweetcrumbs/report/>
 
 ## Pages
 
@@ -48,6 +48,7 @@ site/                    ← the published website (nothing else is deployed)
   data/menu.json         the ONE file the owner edits (menu + business info)
   data/README.md         plain-language owner guide
   assets/img/            WebP images + SVG icons
+  report/                published build report (linked from every footer)
 qa/                      bakery-qa: menu-check, site-audit, unit tests (Node, not deployed)
 specs/001-sweet-crumb-website/   spec, plan, research, data model, contracts, tasks
 .specify/memory/constitution.md  project principles
