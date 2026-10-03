@@ -456,3 +456,21 @@ Added a Claude Code hook that logs every prompt to PROMPT_LOG.md (this table).  
 continue
 Resumed after an interruption.
 ```
+
+---
+
+### 2026-10-03 16:49:38 EDT
+_Session: fba15269-dc8f-420d-8a56-d58deb7c70ef_
+
+```text
+remove 
+
+<pasted_content id="3e37">
+5    16:29    Git    
+git init and commit everything
+Paused to write this report first.
+26    16:31    Report    
+commit everything actually before commit can you make an indepth report on what prompts I used, what is the website, what are the 2 extensions built in the projects what were the reports after running the extensions, lighthouse report, what speckit commands were used - to present it to a interviewer
+This document.
+</pasted_content id="3e37">
+```
