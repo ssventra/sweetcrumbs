@@ -1,0 +1,1 @@
+../../../.specify/extensions/bakery-qa/.specify-dev/agent-commands/claude/speckit-bakery-qa-menu-check/SKILL.md

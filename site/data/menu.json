@@ -1,0 +1,257 @@
+{
+  "business": {
+    "name": "Sweet Crumb Bakery",
+    "tagline": "Small-batch breads, pastries, and cakes, baked every morning on Maple Street.",
+    "phone": "(555) 123-4567",
+    "email": "hello@sweetcrumb.example",
+    "address": {
+      "street": "214 Maple Street",
+      "city": "Brookfield",
+      "region": "NY",
+      "postalCode": "12345"
+    },
+    "map": { "lat": 40.7128, "lon": -74.006, "zoom": 16 },
+    "timeZone": "America/New_York",
+    "hours": {
+      "mon": null,
+      "tue": { "open": "07:00", "close": "15:00" },
+      "wed": { "open": "07:00", "close": "15:00" },
+      "thu": { "open": "07:00", "close": "15:00" },
+      "fri": { "open": "07:00", "close": "15:00" },
+      "sat": { "open": "07:00", "close": "16:00" },
+      "sun": { "open": "08:00", "close": "14:00" }
+    },
+    "leadTimes": { "preorderHours": 24, "cakeHours": 72 },
+    "cakeFormEndpoint": ""
+  },
+  "items": [
+    {
+      "id": "country-sourdough",
+      "name": "Country Sourdough",
+      "category": "breads",
+      "description": "Naturally leavened loaf with a crackling crust and open, tangy crumb. Fermented for 36 hours.",
+      "price": 7,
+      "unit": "per loaf",
+      "image": "assets/img/country-sourdough.webp",
+      "imageAlt": "A round sourdough loaf with a deep golden, flour-dusted crust",
+      "allergens": ["wheat"]
+    },
+    {
+      "id": "seeded-rye",
+      "name": "Seeded Rye",
+      "category": "breads",
+      "description": "Dense rye loaf packed with sunflower, flax, and sesame seeds.",
+      "price": 8.5,
+      "unit": "per loaf",
+      "image": "assets/img/seeded-rye.webp",
+      "imageAlt": "Sliced dark rye bread studded with seeds",
+      "allergens": ["wheat", "sesame"],
+      "soldOut": true
+    },
+    {
+      "id": "classic-baguette",
+      "name": "Classic Baguette",
+      "category": "breads",
+      "description": "Thin, crisp crust and an airy center. Best the day it's baked.",
+      "price": 3.5,
+      "unit": "each",
+      "image": "assets/img/classic-baguette.webp",
+      "imageAlt": "Three long golden loaves of French bread in a basket",
+      "allergens": ["wheat"],
+      "featured": true
+    },
+    {
+      "id": "cinnamon-raisin-loaf",
+      "name": "Cinnamon Raisin Loaf",
+      "category": "breads",
+      "description": "Soft sandwich loaf swirled with cinnamon sugar and plump raisins.",
+      "price": 8,
+      "unit": "per loaf",
+      "image": "assets/img/cinnamon-raisin-loaf.webp",
+      "imageAlt": "A sliced loaf showing a cinnamon swirl and raisins",
+      "allergens": ["wheat", "milk", "eggs"]
+    },
+    {
+      "id": "rosemary-focaccia",
+      "name": "Rosemary Focaccia",
+      "category": "breads",
+      "description": "Olive-oil-rich flatbread dimpled with rosemary and flaky sea salt.",
+      "price": 6,
+      "unit": "per slab",
+      "image": "assets/img/rosemary-focaccia.webp",
+      "imageAlt": "A golden slab of focaccia topped with rosemary sprigs",
+      "allergens": ["wheat"]
+    },
+    {
+      "id": "butter-croissant",
+      "name": "Butter Croissant",
+      "category": "pastries",
+      "description": "Laminated with cultured butter over three days for shatter-crisp layers.",
+      "price": 3.75,
+      "unit": "each",
+      "image": "assets/img/butter-croissant.webp",
+      "imageAlt": "A flaky, glossy croissant on a wooden board",
+      "allergens": ["wheat", "milk", "eggs"],
+      "featured": true
+    },
+    {
+      "id": "almond-croissant",
+      "name": "Almond Croissant",
+      "category": "pastries",
+      "description": "Twice-baked croissant filled with almond frangipane and topped with toasted almonds.",
+      "price": 4.5,
+      "unit": "each",
+      "image": "assets/img/almond-croissant.webp",
+      "imageAlt": "A croissant dusted with powdered sugar and sliced almonds",
+      "allergens": ["wheat", "milk", "eggs", "tree-nuts"]
+    },
+    {
+      "id": "pain-au-chocolat",
+      "name": "Pain au Chocolat",
+      "category": "pastries",
+      "description": "Buttery croissant dough wrapped around two bars of dark chocolate.",
+      "price": 4.25,
+      "unit": "each",
+      "image": "assets/img/pain-au-chocolat.webp",
+      "imageAlt": "A rectangular pastry with chocolate visible at the ends",
+      "allergens": ["wheat", "milk", "eggs", "soy"]
+    },
+    {
+      "id": "cinnamon-roll",
+      "name": "Cinnamon Roll",
+      "category": "pastries",
+      "description": "Brioche spiral with brown-butter cinnamon filling and cream cheese glaze.",
+      "price": 4,
+      "unit": "each",
+      "image": "assets/img/cinnamon-roll.webp",
+      "imageAlt": "A large spiral roll covered in white glaze",
+      "allergens": ["wheat", "milk", "eggs"],
+      "soldOut": true
+    },
+    {
+      "id": "morning-bun",
+      "name": "Orange Morning Bun",
+      "category": "pastries",
+      "description": "Croissant dough rolled with orange zest and cinnamon, baked in a sugar-lined tin.",
+      "price": 4.25,
+      "unit": "each",
+      "image": "assets/img/morning-bun.webp",
+      "imageAlt": "A sugar-crusted spiral bun with flecks of orange zest",
+      "allergens": ["wheat", "milk", "eggs"],
+      "specialDays": ["sat"]
+    },
+    {
+      "id": "seasonal-fruit-danish",
+      "name": "Seasonal Fruit Danish",
+      "category": "pastries",
+      "description": "Flaky pastry with vanilla custard and whatever fruit is best this week.",
+      "price": 4.5,
+      "unit": "each",
+      "allergens": ["wheat", "milk", "eggs"]
+    },
+    {
+      "id": "chocolate-layer-cake",
+      "name": "Chocolate Layer Cake",
+      "category": "cakes",
+      "description": "Three layers of devil's food cake with silky chocolate ganache. Serves 10–12.",
+      "price": 42,
+      "unit": "8-inch whole",
+      "image": "assets/img/chocolate-layer-cake.webp",
+      "imageAlt": "A tall chocolate cake with glossy ganache, one slice cut away",
+      "allergens": ["wheat", "milk", "eggs", "soy"],
+      "featured": true
+    },
+    {
+      "id": "carrot-cake-slice",
+      "name": "Carrot Cake",
+      "category": "cakes",
+      "description": "Spiced carrot cake with toasted walnuts and cream cheese frosting.",
+      "price": 5.5,
+      "unit": "per slice",
+      "image": "assets/img/carrot-cake-slice.webp",
+      "imageAlt": "A slice of layered carrot cake with thick white frosting",
+      "allergens": ["wheat", "milk", "eggs", "tree-nuts"]
+    },
+    {
+      "id": "lemon-drizzle-loaf",
+      "name": "Lemon Drizzle Loaf",
+      "category": "cakes",
+      "description": "Tender lemon pound cake soaked in lemon syrup with a crackly sugar top.",
+      "price": 18,
+      "unit": "per loaf",
+      "image": "assets/img/lemon-drizzle-loaf.webp",
+      "imageAlt": "A yellow loaf cake with a white sugar glaze dripping down the sides",
+      "allergens": ["wheat", "milk", "eggs"],
+      "specialDays": ["fri"]
+    },
+    {
+      "id": "berry-cheesecake",
+      "name": "Berry Cheesecake",
+      "category": "cakes",
+      "description": "New York-style cheesecake on a graham crust with mixed berry compote.",
+      "price": 6,
+      "unit": "per slice",
+      "image": "assets/img/berry-cheesecake.webp",
+      "imageAlt": "A creamy cheesecake slice topped with red and purple berries",
+      "allergens": ["wheat", "milk", "eggs"]
+    },
+    {
+      "id": "chocolate-chip-cookie",
+      "name": "Chocolate Chip Cookie",
+      "category": "cookies",
+      "description": "Brown-butter dough, dark chocolate chunks, and a pinch of flaky salt.",
+      "price": 2.5,
+      "unit": "each",
+      "image": "assets/img/chocolate-chip-cookie.webp",
+      "imageAlt": "A large cookie with pools of melted chocolate",
+      "allergens": ["wheat", "milk", "eggs", "soy"],
+      "featured": true,
+      "specialDays": ["daily"]
+    },
+    {
+      "id": "oatmeal-raisin-cookie",
+      "name": "Oatmeal Raisin Cookie",
+      "category": "cookies",
+      "description": "Chewy oat cookie with plump raisins and a hint of cinnamon.",
+      "price": 2.25,
+      "unit": "each",
+      "image": "assets/img/oatmeal-raisin-cookie.webp",
+      "imageAlt": "A golden oat cookie with raisins",
+      "allergens": ["wheat", "milk", "eggs"]
+    },
+    {
+      "id": "snickerdoodle",
+      "name": "Snickerdoodle",
+      "category": "cookies",
+      "description": "Soft, pillowy cookie rolled in cinnamon sugar.",
+      "price": 2.25,
+      "unit": "each",
+      "image": "assets/img/snickerdoodle.webp",
+      "imageAlt": "A crackled cookie coated in cinnamon sugar",
+      "allergens": ["wheat", "milk", "eggs"]
+    },
+    {
+      "id": "peanut-butter-cookie",
+      "name": "Peanut Butter Cookie",
+      "category": "cookies",
+      "description": "Classic crisscross cookie made with roasted peanut butter.",
+      "price": 2.5,
+      "unit": "each",
+      "image": "assets/img/peanut-butter-cookie.webp",
+      "imageAlt": "A round cookie with a fork-pressed crisscross pattern",
+      "allergens": ["wheat", "milk", "eggs", "peanuts"]
+    },
+    {
+      "id": "brown-butter-shortbread",
+      "name": "Brown Butter Shortbread",
+      "category": "cookies",
+      "description": "Crumbly, buttery fingers with a toasty, nutty depth.",
+      "price": 12,
+      "unit": "per box of 6",
+      "image": "assets/img/brown-butter-shortbread.webp",
+      "imageAlt": "Rectangular golden biscuits stacked in a small kraft box",
+      "allergens": ["wheat", "milk"],
+      "specialDays": ["wed"]
+    }
+  ]
+}

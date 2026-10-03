@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your pre-order list | Sweet Crumb Bakery</title>
+  <meta name="description" content="Review your pre-order list and send it to Sweet Crumb Bakery for pickup.">
+  <meta name="theme-color" content="#4a2e1c">
+  <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="preorder">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html"><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="15" fill="#f2c46d"/><g fill="none" stroke="#4a2e1c" stroke-width="2" stroke-linecap="round"><path d="M16 26V9"/><path d="M16 13c-3-1-5-3-5-6 3 0 5 2 5 6zm0 0c3-1 5-3 5-6-3 0-5 2-5 6zm0 6c-3-1-5-3-5-6 3 0 5 2 5 6zm0 0c3-1 5-3 5-6-3 0-5 2-5 6z"/></g></svg><span>Sweet Crumb Bakery</span></a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="custom-cakes.html">Custom Cakes</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a href="preorder.html" data-preorder-link aria-label="Pre-order list, 0 items" aria-current="page"><svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h14l-1.6 9.1a2 2 0 0 1-2 1.6H8.6a2 2 0 0 1-2-1.6z"/><path d="M8 10l3-6M16 10l-3-6"/></svg>Pre-order <span class="preorder-count" data-preorder-count>0</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="container section">
+      <h1>Your pre-order list</h1>
+      <p class="lead">Build your order here, then send it to us by email. We'll confirm before pickup, and you pay when you collect.</p>
+      <div id="cart-notices"></div>
+
+      <section aria-labelledby="list-title">
+        <h2 id="list-title" tabindex="-1">Items</h2>
+        <div id="preorder-list" class="reserve-list">
+          <noscript>
+            <p class="notice">The pre-order list needs JavaScript. Please call us at <a href="tel:5551234567">(555) 123-4567</a> to order.</p>
+          </noscript>
+        </div>
+        <p class="estimate" id="estimate" hidden>Estimated total (before tax): <span id="estimate-value"></span></p>
+      </section>
+
+      <section id="send-section" aria-labelledby="send-title" hidden>
+        <h2 id="send-title">Send your pre-order</h2>
+        <p>Choose when you'd like to pick up. We need <span data-lead-hours>24</span> hours' notice and will reply to confirm.</p>
+        <form class="form" id="preorder-form" novalidate>
+          <div class="error-summary" id="error-summary" role="alert" tabindex="-1" hidden></div>
+
+          <div class="field">
+            <label for="customerName">Name</label>
+            <input type="text" id="customerName" name="customerName" autocomplete="name" maxlength="80" aria-describedby="customerName-error">
+            <p class="field-error" id="customerName-error" hidden></p>
+          </div>
+
+          <p class="hint" id="contact-hint">Email or phone required, so we can confirm your order.</p>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" aria-describedby="contact-hint email-error">
+            <p class="field-error" id="email-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" aria-describedby="contact-hint phone-error">
+            <p class="field-error" id="phone-error" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="pickupDate">Pickup date</label>
+            <input type="date" id="pickupDate" name="pickupDate" aria-describedby="pickupDate-error">
+            <p class="field-error" id="pickupDate-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="pickupTime">Pickup time</label>
+            <select id="pickupTime" name="pickupTime" aria-describedby="pickupTime-error">
+              <option value="">Choose a date first</option>
+            </select>
+            <p class="field-error" id="pickupTime-error" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="notes">Notes (optional)</label>
+            <textarea id="notes" name="notes" maxlength="500" aria-describedby="notes-error"></textarea>
+            <p class="field-error" id="notes-error" hidden></p>
+          </div>
+
+          <div class="notice" data-announcement hidden></div>
+          <p><button class="button" type="submit">Send pre-order</button></p>
+        </form>
+      </section>
+
+      <section class="panel" id="sent-panel" tabindex="-1" aria-labelledby="sent-title" hidden>
+        <h2 id="sent-title">Almost done: press Send in your email app</h2>
+        <p>Your email app should now be open with your pre-order filled in. This is a request: we'll reply to confirm, and you pay when you pick up.</p>
+        <p class="notice" id="truncated-note" hidden>Your list was too long to fit in the email automatically. Please copy the summary below and paste it into the email.</p>
+        <div class="field">
+          <label for="summary-text">Your pre-order summary</label>
+          <textarea class="summary-text" id="summary-text" rows="12" readonly></textarea>
+        </div>
+        <p class="actions">
+          <button class="button button--secondary" type="button" id="copy-summary">Copy summary</button>
+          <button class="button button--ghost" type="button" id="clear-list">Clear my list</button>
+        </p>
+        <p id="copy-status" role="status"></p>
+        <p>No email app? Copy the summary and send it to <span id="bakery-email"></span>, or call us at <a id="bakery-phone" href="visit.html">the number on our Visit page</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-name">Sweet Crumb Bakery</p>
+        <address>
+          214 Maple Street, Brookfield, NY 12345<br>
+          <a href="tel:5551234567">(555) 123-4567</a>
+        </address>
+      </div>
+      <ul class="footer-links">
+        <li><a href="visit.html">Hours &amp; directions</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="custom-cakes.html">Custom cakes</a></li>
+      </ul>
+      <p>&copy; <span data-year>2026</span> Sweet Crumb Bakery</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/cart.js"></script>
+</body>
+</html>

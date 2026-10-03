@@ -1,0 +1,10 @@
+node_modules/
+.lighthouseci/
+.DS_Store
+Thumbs.db
+*.log
+.env*
+*.tmp
+*.swp
+.vscode/
+.idea/

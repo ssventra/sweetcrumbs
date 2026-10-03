@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sweet Crumb Bakery | Fresh bread, pastries &amp; cakes on Maple Street</title>
+  <meta name="description" content="Neighborhood bakery on Maple Street baking bread, pastries, cakes, and cookies every morning. See today's specials, hours, and pre-order for pickup.">
+  <meta name="theme-color" content="#4a2e1c">
+  <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html"><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="15" fill="#f2c46d"/><g fill="none" stroke="#4a2e1c" stroke-width="2" stroke-linecap="round"><path d="M16 26V9"/><path d="M16 13c-3-1-5-3-5-6 3 0 5 2 5 6zm0 0c3-1 5-3 5-6-3 0-5 2-5 6zm0 6c-3-1-5-3-5-6 3 0 5 2 5 6zm0 0c3-1 5-3 5-6-3 0-5 2-5 6z"/></g></svg><span>Sweet Crumb Bakery</span></a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="custom-cakes.html">Custom Cakes</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a href="preorder.html" data-preorder-link aria-label="Pre-order list, 0 items"><svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h14l-1.6 9.1a2 2 0 0 1-2 1.6H8.6a2 2 0 0 1-2-1.6z"/><path d="M8 10l3-6M16 10l-3-6"/></svg>Pre-order <span class="preorder-count" data-preorder-count>0</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <img src="assets/img/hero-960.webp"
+           srcset="assets/img/hero-960.webp 960w, assets/img/hero-1600.webp 1600w"
+           sizes="100vw" width="960" height="640" fetchpriority="high"
+           alt="Wooden shelves lined with freshly baked loaves in the bakery">
+      <div class="hero-content">
+        <div class="container">
+          <h1 id="hero-title">Sweet Crumb Bakery</h1>
+          <p class="lead hero-tagline" data-tagline>Baked fresh every morning, right here in the neighborhood.</p>
+          <p class="actions">
+            <a class="button" href="menu.html">See the menu</a>
+            <a class="button button--ghost" href="custom-cakes.html">Order a custom cake</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" aria-labelledby="featured-title">
+      <h2 id="featured-title">Featured</h2>
+      <p class="toast" id="menu-live" role="status" aria-live="polite"></p>
+      <div id="featured-list" class="reserve-cards">
+        <noscript>
+          <p class="notice">Our menu needs JavaScript to display. Please call us at <a href="tel:5551234567">(555) 123-4567</a> to hear what's fresh today.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <section class="container section" aria-labelledby="specials-title">
+      <h2 id="specials-title">Today's specials</h2>
+      <div id="specials-list"></div>
+    </section>
+
+    <section class="container section" aria-labelledby="hours-title">
+      <h2 id="hours-title">Opening hours</h2>
+      <div class="hours-layout">
+        <div id="hours-table" class="reserve-hours">
+          <noscript>
+            <p>Call us at <a href="tel:5551234567">(555) 123-4567</a> for today's hours.</p>
+          </noscript>
+        </div>
+        <div>
+          <p class="open-status" id="open-status"></p>
+          <div class="notice" data-announcement hidden></div>
+          <p><a href="visit.html">Directions, phone, and email</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-name">Sweet Crumb Bakery</p>
+        <address>
+          214 Maple Street, Brookfield, NY 12345<br>
+          <a href="tel:5551234567">(555) 123-4567</a>
+        </address>
+      </div>
+      <ul class="footer-links">
+        <li><a href="visit.html">Hours &amp; directions</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="custom-cakes.html">Custom cakes</a></li>
+      </ul>
+      <p>&copy; <span data-year>2026</span> Sweet Crumb Bakery</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/menu.js"></script>
+</body>
+</html>

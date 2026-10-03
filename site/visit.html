@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visit us | Sweet Crumb Bakery</title>
+  <meta name="description" content="Find Sweet Crumb Bakery: address, opening hours, phone, email, and directions.">
+  <meta name="theme-color" content="#4a2e1c">
+  <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="visit">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html"><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="15" fill="#f2c46d"/><g fill="none" stroke="#4a2e1c" stroke-width="2" stroke-linecap="round"><path d="M16 26V9"/><path d="M16 13c-3-1-5-3-5-6 3 0 5 2 5 6zm0 0c3-1 5-3 5-6-3 0-5 2-5 6zm0 6c-3-1-5-3-5-6 3 0 5 2 5 6zm0 0c3-1 5-3 5-6-3 0-5 2-5 6z"/></g></svg><span>Sweet Crumb Bakery</span></a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="custom-cakes.html">Custom Cakes</a></li>
+        <li><a href="visit.html" aria-current="page">Visit</a></li>
+        <li><a href="preorder.html" data-preorder-link aria-label="Pre-order list, 0 items"><svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h14l-1.6 9.1a2 2 0 0 1-2 1.6H8.6a2 2 0 0 1-2-1.6z"/><path d="M8 10l3-6M16 10l-3-6"/></svg>Pre-order <span class="preorder-count" data-preorder-count>0</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="container section">
+      <h1>Visit us</h1>
+      <p class="lead">Come say hello. The coffee's on and the ovens are warm.</p>
+
+      <div class="visit-layout">
+        <div>
+          <section aria-labelledby="contact-title">
+            <h2 id="contact-title">Find us</h2>
+            <address class="contact-block reserve-contact" id="contact-block">
+              <noscript>See the address and phone number at the bottom of this page.</noscript>
+            </address>
+            <p><a class="button button--secondary" id="directions-link" href="https://www.openstreetmap.org/" rel="noopener">Get directions</a></p>
+          </section>
+
+          <section aria-labelledby="visit-hours-title">
+            <h2 id="visit-hours-title">Opening hours</h2>
+            <p class="open-status" id="open-status"></p>
+            <div class="notice" data-announcement hidden></div>
+            <div id="hours-table" class="reserve-hours"></div>
+          </section>
+        </div>
+
+        <section aria-labelledby="map-title">
+          <h2 id="map-title">Map</h2>
+          <iframe class="map-frame" id="map-frame" title="Map showing Sweet Crumb Bakery's location"
+                  loading="lazy" width="600" height="400" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <p class="hint">Map data &copy; OpenStreetMap contributors.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-name">Sweet Crumb Bakery</p>
+        <address>
+          214 Maple Street, Brookfield, NY 12345<br>
+          <a href="tel:5551234567">(555) 123-4567</a>
+        </address>
+      </div>
+      <ul class="footer-links">
+        <li><a href="visit.html">Hours &amp; directions</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="custom-cakes.html">Custom cakes</a></li>
+      </ul>
+      <p>&copy; <span data-year>2026</span> Sweet Crumb Bakery</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/site.js"></script>
+</body>
+</html>

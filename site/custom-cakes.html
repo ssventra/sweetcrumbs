@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Custom cakes | Sweet Crumb Bakery</title>
+  <meta name="description" content="Request a custom cake for birthdays, weddings, and celebrations. Tell us what you need and we'll reply with a quote.">
+  <meta name="theme-color" content="#4a2e1c">
+  <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="cakes">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html"><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="15" fill="#f2c46d"/><g fill="none" stroke="#4a2e1c" stroke-width="2" stroke-linecap="round"><path d="M16 26V9"/><path d="M16 13c-3-1-5-3-5-6 3 0 5 2 5 6zm0 0c3-1 5-3 5-6-3 0-5 2-5 6zm0 6c-3-1-5-3-5-6 3 0 5 2 5 6zm0 0c3-1 5-3 5-6-3 0-5 2-5 6z"/></g></svg><span>Sweet Crumb Bakery</span></a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="custom-cakes.html" aria-current="page">Custom Cakes</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a href="preorder.html" data-preorder-link aria-label="Pre-order list, 0 items"><svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h14l-1.6 9.1a2 2 0 0 1-2 1.6H8.6a2 2 0 0 1-2-1.6z"/><path d="M8 10l3-6M16 10l-3-6"/></svg>Pre-order <span class="preorder-count" data-preorder-count>0</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="container section">
+      <h1>Custom cakes</h1>
+      <p class="lead">Birthdays, weddings, or just because: tell us about your cake and we'll reply within one business day to confirm the details and send a quote.</p>
+      <ul>
+        <li>We need at least <span data-cake-hours>72</span> hours' notice. Please call us for anything sooner.</li>
+        <li>This is a request, not a payment. You pay when you pick up.</li>
+        <li>Describe the design in words. We'll ask for photos when we reply if we need them.</li>
+      </ul>
+      <p class="hint">Fields marked <span aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required.</p>
+
+      <form class="form" id="cake-form" novalidate>
+        <div class="error-summary" id="cake-error-summary" role="alert" tabindex="-1" hidden></div>
+
+        <fieldset>
+          <legend>Your details</legend>
+          <div class="field">
+            <label for="name">Name <span aria-hidden="true">*</span></label>
+            <input type="text" id="name" name="name" autocomplete="name" maxlength="80" aria-describedby="name-error">
+            <p class="field-error" id="name-error" hidden></p>
+          </div>
+          <p class="hint" id="cake-contact-hint">Email or phone required.</p>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" aria-describedby="cake-contact-hint email-error">
+            <p class="field-error" id="email-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" aria-describedby="cake-contact-hint phone-error">
+            <p class="field-error" id="phone-error" hidden></p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your cake</legend>
+          <div class="field">
+            <label for="occasion">Occasion (optional)</label>
+            <select id="occasion" name="occasion" aria-describedby="occasion-error">
+              <option value="">Choose one</option>
+              <option>Birthday</option>
+              <option>Wedding</option>
+              <option>Anniversary</option>
+              <option>Baby shower</option>
+              <option>Graduation</option>
+              <option>Other</option>
+            </select>
+            <p class="field-error" id="occasion-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="pickupDate">Pickup date <span aria-hidden="true">*</span></label>
+            <input type="date" id="pickupDate" name="pickupDate" aria-describedby="pickupDate-hint pickupDate-error">
+            <p class="hint" id="pickupDate-hint">The earliest date we can take is <span data-earliest-date>shown after the page loads</span>.</p>
+            <p class="field-error" id="pickupDate-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="servings">Servings <span aria-hidden="true">*</span></label>
+            <select id="servings" name="servings" aria-describedby="servings-error">
+              <option value="">Choose one</option>
+              <option>6–8</option>
+              <option>10–12</option>
+              <option>15–20</option>
+              <option>25–30</option>
+              <option>40+ (call to discuss)</option>
+            </select>
+            <p class="field-error" id="servings-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="flavor">Flavor <span aria-hidden="true">*</span></label>
+            <select id="flavor" name="flavor" aria-describedby="flavor-error">
+              <option value="">Choose one</option>
+              <option>Vanilla</option>
+              <option>Chocolate</option>
+              <option>Red velvet</option>
+              <option>Lemon</option>
+              <option>Carrot</option>
+              <option>Other</option>
+            </select>
+            <p class="field-error" id="flavor-error" hidden></p>
+          </div>
+          <div class="field" id="flavorOther-field" hidden>
+            <label for="flavorOther">Describe the flavor <span aria-hidden="true">*</span></label>
+            <input type="text" id="flavorOther" name="flavorOther" maxlength="80" aria-describedby="flavorOther-error">
+            <p class="field-error" id="flavorOther-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="filling">Filling (optional)</label>
+            <select id="filling" name="filling" aria-describedby="filling-error">
+              <option value="">Choose one</option>
+              <option>None</option>
+              <option>Raspberry</option>
+              <option>Lemon curd</option>
+              <option>Chocolate ganache</option>
+              <option>Salted caramel</option>
+              <option>Vanilla custard</option>
+            </select>
+            <p class="field-error" id="filling-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="frosting">Frosting (optional)</label>
+            <select id="frosting" name="frosting" aria-describedby="frosting-error">
+              <option value="">Choose one</option>
+              <option>Buttercream</option>
+              <option>Cream cheese</option>
+              <option>Ganache</option>
+              <option>Whipped cream</option>
+              <option>Fondant</option>
+            </select>
+            <p class="field-error" id="frosting-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="decoration">Design and decoration (optional)</label>
+            <textarea id="decoration" name="decoration" maxlength="300" aria-describedby="decoration-hint decoration-error"></textarea>
+            <p class="hint" id="decoration-hint">Describe colors, theme, and toppers in words (up to 300 characters). No images or links.</p>
+            <p class="field-error" id="decoration-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="cakeMessage">Message on the cake (optional)</label>
+            <input type="text" id="cakeMessage" name="cakeMessage" maxlength="60" aria-describedby="cakeMessage-hint cakeMessage-error">
+            <p class="hint" id="cakeMessage-hint">Up to 60 characters.</p>
+            <p class="field-error" id="cakeMessage-error" hidden></p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Dietary needs (optional)</legend>
+          <label class="checkbox"><input type="checkbox" name="dietary" value="egg-free"> Egg-free</label>
+          <label class="checkbox"><input type="checkbox" name="dietary" value="dairy-free"> Dairy-free</label>
+          <label class="checkbox"><input type="checkbox" name="dietary" value="nut-free"> Nut-free</label>
+          <label class="checkbox"><input type="checkbox" name="dietary" value="vegan"> Vegan</label>
+          <div class="field">
+            <label for="dietaryOther">Anything else we should know?</label>
+            <input type="text" id="dietaryOther" name="dietaryOther" maxlength="200" aria-describedby="dietaryOther-error">
+            <p class="field-error" id="dietaryOther-error" hidden></p>
+          </div>
+        </fieldset>
+
+          <div class="field">
+            <label for="budget">Budget (optional)</label>
+            <select id="budget" name="budget" aria-describedby="budget-error">
+              <option value="">Choose one</option>
+              <option>under $50</option>
+              <option>$50–100</option>
+              <option>$100–200</option>
+              <option>$200+</option>
+            </select>
+            <p class="field-error" id="budget-error" hidden></p>
+          </div>
+
+        <div class="field">
+          <label class="checkbox"><input type="checkbox" id="consent" name="consent" value="yes" aria-describedby="consent-error"> I agree to be contacted about this request <span aria-hidden="true">*</span></label>
+          <p class="field-error" id="consent-error" hidden></p>
+        </div>
+
+        <div class="honeypot" aria-hidden="true">
+          <label for="gotcha">Leave this field empty</label>
+          <input type="text" id="gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="notice" data-announcement hidden></div>
+        <p><button class="button" type="submit" id="cake-submit">Send cake request</button></p>
+        <p id="cake-sending" role="status"></p>
+      </form>
+
+      <section class="panel" id="cake-confirmation" tabindex="-1" aria-labelledby="cake-confirmation-title" hidden>
+        <h2 id="cake-confirmation-title">Thank you! Your request is on its way</h2>
+        <p>We'll reply within 1 business day to confirm and quote. Nothing has been charged.</p>
+        <p><a href="index.html">Back to the home page</a></p>
+      </section>
+
+      <section class="panel" id="cake-email-panel" tabindex="-1" aria-labelledby="cake-email-title" hidden>
+        <h2 id="cake-email-title">Almost done: press Send in your email app</h2>
+        <p id="cake-fallback-reason" hidden>We couldn't send that online, so your email app should open with everything filled in. Just press Send.</p>
+        <p id="cake-email-reason">Your email app should now be open with your request filled in. Press Send there.</p>
+        <div class="field">
+          <label for="cake-summary">Your cake request</label>
+          <textarea class="summary-text" id="cake-summary" rows="14" readonly></textarea>
+        </div>
+        <p class="actions"><button class="button button--secondary" type="button" id="cake-copy">Copy request</button></p>
+        <p id="cake-copy-status" role="status"></p>
+        <p>No email app? Copy the request and send it to <span id="cake-bakery-email"></span>.</p>
+      </section>
+
+      <noscript>
+        <p class="notice">This form needs JavaScript. Please email us or call <a href="tel:5551234567">(555) 123-4567</a> to order a cake.</p>
+      </noscript>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-name">Sweet Crumb Bakery</p>
+        <address>
+          214 Maple Street, Brookfield, NY 12345<br>
+          <a href="tel:5551234567">(555) 123-4567</a>
+        </address>
+      </div>
+      <ul class="footer-links">
+        <li><a href="visit.html">Hours &amp; directions</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="custom-cakes.html">Custom cakes</a></li>
+      </ul>
+      <p>&copy; <span data-year>2026</span> Sweet Crumb Bakery</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/form.js"></script>
+</body>
+</html>

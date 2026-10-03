@@ -1,0 +1,4 @@
+# Netlify: publish the site/ folder as-is. No build step (constitution I).
+[build]
+  publish = "site"
+  command = ""

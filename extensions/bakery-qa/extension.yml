@@ -1,0 +1,43 @@
+schema_version: "1.0"
+
+extension:
+  id: bakery-qa
+  name: "Bakery QA"
+  version: "1.0.0"
+  description: "Quality gate for the Sweet Crumb Bakery site: validates the menu file and audits every page (unit tests, static checks, Lighthouse) using the project's qa/ scripts"
+  author: shravani
+  license: MIT
+
+requires:
+  speckit_version: ">=0.2.0"
+  tools:
+    - name: node
+      version: ">=22.0.0"
+      required: true
+
+provides:
+  commands:
+    - name: speckit.bakery-qa.menu-check
+      file: commands/menu-check.md
+      description: "Validate site/data/menu.json against the menu contract and business rules"
+    - name: speckit.bakery-qa.site-audit
+      file: commands/site-audit.md
+      description: "Run unit tests, the static page audit, and Lighthouse against site/"
+
+hooks:
+  after_tasks:
+    command: speckit.bakery-qa.menu-check
+    optional: true
+    prompt: "Run menu check?"
+    description: "Validate the menu file once tasks are generated"
+  after_implement:
+    command: speckit.bakery-qa.site-audit
+    optional: false
+    description: "Constitution Principle VI: a feature is not done until bakery-qa passes"
+
+tags:
+  - "qa"
+  - "accessibility"
+  - "performance"
+  - "lighthouse"
+  - "static-site"

@@ -1,0 +1,24 @@
+installed:
+- bakery-qa
+settings:
+  auto_execute_hooks: true
+hooks:
+  after_tasks:
+  - extension: bakery-qa
+    command: speckit.bakery-qa.menu-check
+    enabled: true
+    optional: true
+    priority: 10
+    prompt: Run menu check?
+    description: Validate the menu file once tasks are generated
+    condition: null
+  after_implement:
+  - extension: bakery-qa
+    command: speckit.bakery-qa.site-audit
+    enabled: true
+    optional: false
+    priority: 10
+    prompt: Execute speckit.bakery-qa.site-audit?
+    description: 'Constitution Principle VI: a feature is not done until bakery-qa
+      passes'
+    condition: null

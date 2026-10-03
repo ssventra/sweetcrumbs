@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "extensions": {
+    "bakery-qa": {
+      "version": "1.0.0",
+      "source": "local",
+      "manifest_hash": "sha256:2dc4fb8329ceb7d0dfd6f6f33cd1830c86c68d07e2163b68ad77794e72ffa81e",
+      "enabled": true,
+      "priority": 10,
+      "registered_commands": {
+        "claude": [
+          "speckit.bakery-qa.menu-check",
+          "speckit.bakery-qa.site-audit"
+        ]
+      },
+      "registered_skills": [],
+      "installed_at": "2026-10-03T20:22:44.527857+00:00"
+    }
+  }
+}
